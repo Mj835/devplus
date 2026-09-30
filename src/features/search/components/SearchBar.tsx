@@ -52,7 +52,9 @@ export function SearchBar({ text, type, onTextChange, onSubmit, onClear, onTypeC
           ref={inputRef}
           id="search-input"
           type="search"
-          className="w-full border-none bg-transparent text-fg text-[1.05rem] [font-family:inherit] outline-none placeholder:text-fg-muted placeholder:opacity-80"
+          aria-keyshortcuts="/ Control+K Meta+K"
+          // `peer` drives the shortcut hint below; the native search clear button is hidden in favour of ours.
+          className="peer w-full min-w-0 border-none bg-transparent text-fg text-[1.05rem] [font-family:inherit] outline-none placeholder:text-fg-muted placeholder:opacity-80 [&::-webkit-search-cancel-button]:appearance-none"
           value={text}
           onChange={(e) => onTextChange(e.target.value)}
           placeholder={
@@ -73,12 +75,16 @@ export function SearchBar({ text, type, onTextChange, onSubmit, onClear, onTypeC
             <X size={18} />
           </button>
         )}
-        <kbd
-          className="hidden sm:inline-block text-[0.7rem] px-[0.45rem] py-[0.15rem] rounded-[4px] bg-subtle border border-line text-fg-muted font-semibold"
-          title="Press '/' to focus search"
-        >
-          /
-        </kbd>
+        {/* Shortcut hint: only useful while the box is empty and unfocused; announced via aria-keyshortcuts instead. */}
+        {!text && (
+          <kbd
+            aria-hidden="true"
+            className="hidden sm:inline-block sm:peer-focus:hidden text-[0.7rem] px-[0.45rem] py-[0.15rem] rounded-[4px] bg-subtle border border-line text-fg-muted font-semibold"
+            title="Press / to focus search"
+          >
+            /
+          </kbd>
+        )}
       </div>
 
       <div
