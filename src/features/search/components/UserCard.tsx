@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { userQuery } from '../../../api/queries';
 import type { UserSummary } from '../../../api/types';
 import { formatCount } from '../../../lib/format';
-import { btnCard, btnCardAccent, card, cardFooter } from '../../../styles/classes';
+import { btnCard, btnCardAccent, card, cardFooter, wrapAnywhere } from '../../../styles/classes';
 
 /**
  * Search results only carry login + avatar, so each card lazily fetches the full profile.
@@ -30,12 +30,14 @@ export function UserCard({ user }: { user: UserSummary }) {
         </div>
 
         <div className="mb-3">
-          <div className="text-[1.05rem] font-bold text-fg leading-[1.2]">{p?.name || user.login}</div>
-          <div className="text-[0.825rem] text-fg-muted">@{user.login}</div>
+          <div className={`${wrapAnywhere} text-[1.05rem] font-bold text-fg leading-[1.2]`}>
+            {p?.name || user.login}
+          </div>
+          <div className={`${wrapAnywhere} text-[0.825rem] text-fg-muted`}>@{user.login}</div>
           {p?.location && (
             <div className="flex items-center gap-[0.3rem] text-[0.8rem] text-fg-2 mt-[0.35rem]">
               <MapPin size={13} color="var(--primary)" />
-              <span>{p.location}</span>
+              <span className={wrapAnywhere}>{p.location}</span>
             </div>
           )}
         </div>

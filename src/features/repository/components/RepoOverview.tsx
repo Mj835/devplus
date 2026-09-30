@@ -3,7 +3,7 @@ import { Check, Copy, ExternalLink, GitBranch, Star } from 'lucide-react';
 import type { RepoDetail } from '../../../api/types';
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard';
 import { getLanguageColor } from '../../../lib/format';
-import { btnCard, btnPrimary, btnSecondary, langDot } from '../../../styles/classes';
+import { btnCard, btnPrimary, btnSecondary, langDot, wrapAnywhere } from '../../../styles/classes';
 
 const pill =
   'inline-flex items-center gap-[0.35rem] px-[0.6rem] py-[0.2rem] rounded-full font-bold tracking-[0.04em] border border-line';
@@ -24,23 +24,28 @@ export function RepoOverview({ repo, headingRef }: Props) {
       className="bg-surface border border-line rounded-[16px] p-7 shadow-card relative overflow-hidden"
     >
       <div className="flex items-start justify-between flex-wrap gap-4 mb-4">
-        <div className="flex items-center gap-[0.85rem] flex-wrap max-md:w-full">
+        <div className="flex items-center gap-[0.85rem] flex-wrap min-w-0 max-md:w-full">
           <img
             src={repo.owner.avatarUrl}
             alt={repo.owner.login}
             className="w-[52px] h-[52px] rounded-[12px] border border-line"
           />
-          <div>
+          <div className="min-w-0">
             <h1
               ref={headingRef}
               tabIndex={-1}
               className="text-[1.65rem] font-extrabold tracking-[-0.03em] flex items-center gap-2 flex-wrap"
             >
-              <a href={repo.owner.url} target="_blank" rel="noreferrer" className="text-fg-2 hover:text-primary">
+              <a
+                href={repo.owner.url}
+                target="_blank"
+                rel="noreferrer"
+                className={`${wrapAnywhere} text-fg-2 hover:text-primary`}
+              >
                 {repo.owner.login}
               </a>
               <span className="text-fg-muted">/</span>
-              <span>{repo.name}</span>
+              <span className={wrapAnywhere}>{repo.name}</span>
             </h1>
 
             <div className="flex items-center gap-2 mt-[0.35rem] flex-wrap">
@@ -48,8 +53,8 @@ export function RepoOverview({ repo, headingRef }: Props) {
               <span className={`${pill} text-[0.725rem] uppercase bg-primary-light text-primary`}>
                 {repo.isPrivate ? 'Private' : 'Public'}
               </span>
-              <span className={`${pill} text-[0.75rem] font-mono bg-subtle text-fg-2`}>
-                <GitBranch size={12} /> {repo.defaultBranch}
+              <span className={`${pill} max-w-full min-w-0 text-[0.75rem] font-mono bg-subtle text-fg-2`}>
+                <GitBranch size={12} className="shrink-0" /> <span className="truncate">{repo.defaultBranch}</span>
               </span>
               {repo.language && (
                 <span className={`${pill} text-[0.725rem] uppercase bg-subtle text-fg`}>

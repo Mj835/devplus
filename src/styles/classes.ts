@@ -40,7 +40,12 @@ export const countPill =
 
 export const langDot = 'w-[9px] h-[9px] rounded-full shrink-0';
 
-export const kpiGrid = 'grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4 max-md:grid-cols-2';
+// Columns never go below 210px (enough for a 9-digit count beside its icon), so phones get one column
+// instead of two squeezed ones; min(100%, …) keeps a single column from overflowing very narrow screens.
+export const kpiGrid = 'grid grid-cols-[repeat(auto-fit,minmax(min(100%,210px),1fr))] gap-4';
+
+/** Lets long unbroken strings (URLs, repo names, logins) wrap instead of overflowing their box. */
+export const wrapAnywhere = 'min-w-0 [overflow-wrap:anywhere]';
 
 // Empty / error state panels.
 const stateBase =

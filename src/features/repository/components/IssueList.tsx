@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { CheckCircle2, CircleDot } from 'lucide-react';
 import type { Issue } from '../../../api/types';
 import { RelativeTime } from '../../../components/RelativeTime';
-import { stateCompact, stateDesc, stateIcon, stateTitle } from '../../../styles/classes';
+import { stateCompact, stateDesc, stateIcon, stateTitle, wrapAnywhere } from '../../../styles/classes';
 import { countIssues, filterIssues, ISSUE_FILTERS, type IssueFilter } from '../issueFilters';
 
 const FILTER_LABELS: Record<IssueFilter, string> = { all: 'All', open: 'Open', closed: 'Closed' };
@@ -78,11 +78,11 @@ export function IssueList({ issues }: { issues: Issue[] }) {
                   href={i.url}
                   target="_blank"
                   rel="noreferrer"
-                  className="block text-[0.925rem] font-semibold text-fg leading-[1.4] hover:text-primary"
+                  className={`${wrapAnywhere} block text-[0.925rem] font-semibold text-fg leading-[1.4] hover:text-primary`}
                 >
                   {i.title}
                 </a>
-                <div className="text-[0.775rem] text-fg-muted mt-[0.2rem]">
+                <div className={`${wrapAnywhere} text-[0.775rem] text-fg-muted mt-[0.2rem]`}>
                   #{i.number} opened by <strong className="text-fg-2">{i.author ?? 'unknown'}</strong> ·{' '}
                   <RelativeTime iso={i.createdAt} /> · updated <RelativeTime iso={i.updatedAt} />
                 </div>
