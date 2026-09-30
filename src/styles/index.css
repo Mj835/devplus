@@ -1,0 +1,265 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens. Components don't read these directly: @theme below maps them to Tailwind
+ * utilities (bg-surface, text-fg-2, border-line, shadow-card, ...). Dark mode only swaps the token
+ * values, so components need no `dark:` variants.
+ */
+:root {
+  --bg-canvas: #f8fafc;
+  --bg-subtle: #f1f5f9;
+  --bg-surface: #ffffff;
+  --bg-elevated: #ffffff;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+
+  --border-subtle: #e2e8f0;
+  --border-default: #cbd5e1;
+  --border-hover: #94a3b8;
+  --border-focus: #6366f1;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #5b6b80; /* 5:1 on subtle backgrounds (WCAG AA) */
+
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-light: rgba(79, 70, 229, 0.08);
+  --primary-glow: rgba(79, 70, 229, 0.2);
+
+  --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+  --hero-glow: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 65%);
+
+  --card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  --card-hover-shadow: 0 12px 28px -5px rgba(79, 70, 229, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+
+  --open: #166534;
+  --open-bg: rgba(22, 101, 52, 0.12);
+  --closed: #9333ea;
+  --closed-bg: rgba(147, 51, 234, 0.12);
+  --danger: #e11d48;
+  --danger-bg: rgba(225, 29, 72, 0.1);
+
+  --skeleton: #e2e8f0;
+  --skeleton-highlight: #f1f5f9;
+}
+
+/* Dark values. Applied by the theme toggle, or by the OS when the toggle is on "System". */
+[data-theme='dark'] {
+  --bg-canvas: #07090e;
+  --bg-subtle: #0d121f;
+  --bg-surface: #111827;
+  --bg-elevated: #1a2234;
+  --bg-glass: rgba(17, 24, 39, 0.82);
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-default: rgba(255, 255, 255, 0.12);
+  --border-hover: rgba(255, 255, 255, 0.22);
+  --border-focus: #818cf8;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #8391a7;
+  --primary: #6366f1;
+  --primary-hover: #818cf8;
+  --primary-light: rgba(99, 102, 241, 0.16);
+  --primary-glow: rgba(99, 102, 241, 0.35);
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #38bdf8 100%);
+  --hero-glow: radial-gradient(circle at 50% -10%, rgba(99, 102, 241, 0.22) 0%, transparent 60%);
+  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  --card-hover-shadow: 0 16px 36px -4px rgba(99, 102, 241, 0.28);
+  --modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  --open: #22c55e;
+  --open-bg: rgba(34, 197, 94, 0.16);
+  --closed: #c084fc;
+  --closed-bg: rgba(192, 132, 252, 0.16);
+  --danger: #f43f5e;
+  --danger-bg: rgba(244, 63, 94, 0.16);
+  --skeleton: #1e293b;
+  --skeleton-highlight: #334155;
+}
+
+/* Same values as above; CSS can't share a declaration block between a selector and a media query. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --bg-canvas: #07090e;
+    --bg-subtle: #0d121f;
+    --bg-surface: #111827;
+    --bg-elevated: #1a2234;
+    --bg-glass: rgba(17, 24, 39, 0.82);
+    --border-subtle: rgba(255, 255, 255, 0.07);
+    --border-default: rgba(255, 255, 255, 0.12);
+    --border-hover: rgba(255, 255, 255, 0.22);
+    --border-focus: #818cf8;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #8391a7;
+    --primary: #6366f1;
+    --primary-hover: #818cf8;
+    --primary-light: rgba(99, 102, 241, 0.16);
+    --primary-glow: rgba(99, 102, 241, 0.35);
+    --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #38bdf8 100%);
+    --hero-glow: radial-gradient(circle at 50% -10%, rgba(99, 102, 241, 0.22) 0%, transparent 60%);
+    --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+    --card-hover-shadow: 0 16px 36px -4px rgba(99, 102, 241, 0.28);
+    --modal-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+    --open: #22c55e;
+    --open-bg: rgba(34, 197, 94, 0.16);
+    --closed: #c084fc;
+    --closed-bg: rgba(192, 132, 252, 0.16);
+    --danger: #f43f5e;
+    --danger-bg: rgba(244, 63, 94, 0.16);
+    --skeleton: #1e293b;
+    --skeleton-highlight: #334155;
+  }
+}
+
+@theme inline {
+  --color-canvas: var(--bg-canvas);
+  --color-subtle: var(--bg-subtle);
+  --color-surface: var(--bg-surface);
+  --color-elevated: var(--bg-elevated);
+  --color-glass: var(--bg-glass);
+  --color-line: var(--border-subtle);
+  --color-line-strong: var(--border-default);
+  --color-line-hover: var(--border-hover);
+  --color-focus: var(--border-focus);
+  --color-fg: var(--text-primary);
+  --color-fg-2: var(--text-secondary);
+  --color-fg-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  --color-open: var(--open);
+  --color-open-bg: var(--open-bg);
+  --color-closed: var(--closed);
+  --color-closed-bg: var(--closed-bg);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+
+  --shadow-card: var(--card-shadow);
+  --shadow-card-hover: var(--card-hover-shadow);
+  --shadow-modal: var(--modal-shadow);
+  --shadow-glow: 0 4px 12px var(--primary-glow);
+
+  --animate-fade-in: fadeIn 0.25s ease-out;
+  --animate-shimmer: shimmer 1.5s infinite linear;
+}
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gradient text: keeps `color` for selection/forced-colors, only the fill is transparent. */
+@utility text-gradient {
+  background-image: var(--accent-gradient);
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@utility skeleton {
+  background-image: linear-gradient(90deg, var(--skeleton) 0%, var(--skeleton-highlight) 50%, var(--skeleton) 100%);
+  background-size: 200% 100%;
+  border-radius: 6px;
+  animation: var(--animate-shimmer);
+}
+
+@layer base {
+  html,
+  body {
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    background-color: var(--bg-canvas);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
+  }
+
+  #root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-image: var(--hero-glow);
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-size: 100% 600px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--text-primary);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.35rem;
+  }
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  a {
+    color: var(--primary);
+    transition: color 0.15s ease;
+  }
+  a:hover {
+    color: var(--primary-hover);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+
+  /*
+   * The design was built on browser defaults, not Tailwind's Preflight: form controls keep the
+   * browser's font and spacing, and images/icons stay inline. Utilities still override all of this.
+   */
+  button,
+  input,
+  select,
+  textarea {
+    font: revert;
+    letter-spacing: revert;
+    color: revert;
+    margin: revert;
+    padding: revert;
+  }
+  img,
+  svg {
+    display: revert;
+    vertical-align: revert;
+  }
+}
