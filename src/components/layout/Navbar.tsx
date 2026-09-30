@@ -33,7 +33,8 @@ export function Navbar() {
                   <span className="inline-block text-[1.125rem] font-extrabold tracking-[-0.03em] text-gradient">
                     DevPulse
                   </span>
-                  <div className="text-[0.7rem] font-semibold text-fg-muted tracking-[0.04em] uppercase">
+                  {/* Phones: hidden so the sticky header stays one row instead of eating ~20% of the screen. */}
+                  <div className="text-[0.7rem] font-semibold text-fg-muted tracking-[0.04em] uppercase max-sm:hidden">
                     Engineering Intelligence
                   </div>
                 </div>
@@ -48,8 +49,12 @@ export function Navbar() {
               onClick={() => setTokenModalOpen(true)}
               title="GitHub API token configuration"
             >
-              <Key size={13} />
-              <span>{hasToken ? 'API Token Active (5k/hr)' : 'Free Tier (60/hr)'}</span>
+              <Key size={13} aria-hidden="true" />
+              {/* Full label on larger screens, a short one on phones, icon only on the narrowest; always one accessible name. */}
+              <span className="max-sm:sr-only">{hasToken ? 'API Token Active (5k/hr)' : 'Free Tier (60/hr)'}</span>
+              <span aria-hidden="true" className="sm:hidden max-[359px]:hidden">
+                {hasToken ? '5k/hr' : '60/hr'}
+              </span>
             </button>
 
             <ThemeToggle />

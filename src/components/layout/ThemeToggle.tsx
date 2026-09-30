@@ -49,7 +49,8 @@ export function ThemeToggle() {
       aria-label={`Current theme: ${label}`}
     >
       <Icon size={16} />
-      <span>{label}</span>
+      {/* Icon-only on phones; the button's aria-label always names the theme. */}
+      <span className="max-sm:hidden">{label}</span>
     </button>
   );
 }
